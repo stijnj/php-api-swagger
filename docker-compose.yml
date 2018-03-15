@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    web:
+      container_name: php-api-swagger
+      image: php:7.2-fpm
+      links:
+        - mariadb
+      volumes:
+        - ".:/var/www/html"
+
+    nginx:
+      container_name: nginx
+      image: nginx
+      links:
+        - web
+      ports:
+        - 80:80
+      volumes:
+        - "./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+        - ".:/var/www/html"
+
+    mariadb:
+      container_name: mariadb
+      image: mariadb
+      environment:
+        MYSQL_ROOT_PASSWORD: root
