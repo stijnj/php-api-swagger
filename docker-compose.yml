@@ -3,7 +3,7 @@ version: '3'
 services:
     web:
       container_name: php-api-swagger
-      image: php:7.2-fpm
+      build: .
       links:
         - mariadb
       volumes:
