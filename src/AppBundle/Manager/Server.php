@@ -5,6 +5,7 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\Server as ServerEntity;
 use AppBundle\Repository\ServerRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class Server
 {
@@ -19,11 +20,24 @@ class Server
     protected $em;
 
     /**
+     * @var FormBuilderInterface
+     */
+    protected $formBuilder;
+
+    /**
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+    }
+
+    /**
+     * @return ServerEntity
+     */
+    public function create()
+    {
+        return new ServerEntity();
     }
 
     /**
@@ -49,6 +63,15 @@ class Server
     public function delete(ServerEntity $entity)
     {
         $this->em->remove($entity);
+        $this->em->flush();
+    }
+
+    /**
+     * @param ServerEntity $entity
+     */
+    public function post(ServerEntity $entity)
+    {
+        $this->em->persist($entity);
         $this->em->flush();
     }
 

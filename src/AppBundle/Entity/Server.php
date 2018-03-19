@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Swagger\Annotations as SWG;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Server
@@ -11,6 +13,7 @@ use Swagger\Annotations as SWG;
  * @ORM\Table(name="server")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServerRepository")
  * @SWG\Definition(required={"name", "cpuCount", "memoryCount", "ip"}, type="object", @SWG\Xml(name="Server"))
+ * @UniqueEntity("name")
  */
 class Server
 {
@@ -28,6 +31,8 @@ class Server
      * @var string
      * @SWG\Property()
      *
+     * @Assert\NotBlank()
+     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
@@ -35,6 +40,8 @@ class Server
     /**
      * @var int
      * @SWG\Property()
+     *
+     * @Assert\NotNull()
      *
      * @ORM\Column(name="cpu_count", type="integer")
      */
@@ -44,6 +51,8 @@ class Server
      * @var int
      * @SWG\Property()
      *
+     * @Assert\NotNull()
+     *
      * @ORM\Column(name="memory_count", type="integer")
      */
     private $memoryCount;
@@ -51,6 +60,8 @@ class Server
     /**
      * @var string
      * @SWG\Property(example="127.0.0.1")
+     *
+     * @Assert\Ip()
      *
      * @ORM\Column(name="ip", type="string", length=255, nullable=true)
      */

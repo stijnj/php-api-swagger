@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\ServerType;
 use FOS\RestBundle\Controller\FOSRestController;
 
 use AppBundle\Entity\Server;
@@ -88,16 +89,17 @@ class ServersController extends FOSRestController
      */
     public function postServersAction(Request $request)
     {
-        $server = new Server();
-        $server->setName($request->request->get('name'));
-        $server->setCpuCount(0);
-        $server->setMemoryCount(0);
+        $entity = $this->getServerManager()->create();
+        $form = $this->createForm(ServerType::class, $entity);
+        $form->submit($request->request->all());
 
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($server);
-        $manager->flush();
+        if ($form->isValid()) {
+            $this->getServerManager()->post($entity);
+            $view = $this->view(null, Response::HTTP_CREATED);
+        } else {
+            $view = $this->view($form, Response::HTTP_BAD_REQUEST);
+        }
 
-        $view = $this->view(null, Response::HTTP_CREATED);
         return $this->handleView($view);
     }
 
