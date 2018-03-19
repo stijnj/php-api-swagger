@@ -13,4 +13,11 @@ To create the database:
 
 ## Running the application
 Run `docker-compose start` in the root folder
-Point your browser to `http://localhost/' to use the api.
+Point your browser to http://localhost/swagger/index.html to use the api.
+
+## Next steps
+- [ ] Add DTO's to separate view and database layer objects
+- [ ] Add PATCH to update part of a server
+- [ ] Move form logic to a separate service
+- [ ] Redirect to new server when creating
+- [ ] HATEOAS
