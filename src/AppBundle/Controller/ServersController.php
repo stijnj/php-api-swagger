@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 
 use AppBundle\Entity\Server;
+use AppBundle\Manager\Server as ServerManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
@@ -29,7 +30,7 @@ class ServersController extends FOSRestController
      */
     public function getServersAction()
     {
-        $view = $this->view($this->getServerRepository()->findAll(), 200);
+        $view = $this->view($this->getServerManager()->all(), 200);
         return $this->handleView($view);
     }
 
@@ -49,7 +50,7 @@ class ServersController extends FOSRestController
      */
     public function getServerAction($id)
     {
-        $entity = $this->getServerRepository()->findOneBy(['id' => $id]);
+        $entity = $this->getServerManager()->get($id);
         if (!$entity) {
             throw $this->createNotFoundException("Server with id '{$id}' not found.");
         }
@@ -116,17 +117,23 @@ class ServersController extends FOSRestController
      */
     public function deleteServerAction($id)
     {
-        $entity = $this->getServerRepository()->findOneBy(['id' => $id]);
+        $entity = $this->getServerManager()->get($id);
         if (!$entity) {
             throw $this->createNotFoundException("Server with id '{$id}' not found.");
         }
 
-        $manager = $this->getDoctrine()->getManager();
-        $manager->remove($entity);
-        $manager->flush();
+        $this->getServerManager()->delete($entity);
 
         $view = $this->view(null, Response::HTTP_NO_CONTENT);
         return $this->handleView($view);
+    }
+
+    /**
+     * @return ServerManager
+     */
+    protected function getServerManager()
+    {
+        return $this->get('AppBundle\Manager\Server');
     }
 
     /**
