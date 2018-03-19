@@ -137,12 +137,4 @@ class ServersController extends FOSRestController
     {
         return $this->get('AppBundle\Manager\Server');
     }
-
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    protected function getServerRepository()
-    {
-        return $this->getDoctrine()->getRepository(Server::class);
-    }
 }
