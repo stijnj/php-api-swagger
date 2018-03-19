@@ -3,17 +3,20 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 
 /**
  * Server
  *
  * @ORM\Table(name="server")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServerRepository")
+ * @SWG\Definition(required={"name", "cpuCount", "memoryCount", "ip"}, type="object", @SWG\Xml(name="Server"))
  */
 class Server
 {
     /**
      * @var int
+     * @SWG\Property(format="int64")
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -23,6 +26,7 @@ class Server
 
     /**
      * @var string
+     * @SWG\Property()
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
@@ -30,6 +34,7 @@ class Server
 
     /**
      * @var int
+     * @SWG\Property()
      *
      * @ORM\Column(name="cpu_count", type="integer")
      */
@@ -37,6 +42,7 @@ class Server
 
     /**
      * @var int
+     * @SWG\Property()
      *
      * @ORM\Column(name="memory_count", type="integer")
      */
@@ -44,6 +50,7 @@ class Server
 
     /**
      * @var string
+     * @SWG\Property(example="127.0.0.1")
      *
      * @ORM\Column(name="ip", type="string", length=255, nullable=true)
      */

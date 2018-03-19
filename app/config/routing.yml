@@ -1,3 +1,7 @@
 servers:
     type:     rest
     resource: AppBundle\Controller\ServersController
+
+swagger:
+    path:       /swagger.json
+    controller: AppBundle\Controller\SwaggerController::jsonAction
