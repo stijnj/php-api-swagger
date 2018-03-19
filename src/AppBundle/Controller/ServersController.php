@@ -101,6 +101,35 @@ class ServersController extends FOSRestController
     }
 
     /**
+     * @SWG\Delete(
+     *     path="/servers/{id}",
+     *     tags={"Servers"},
+     *     summary="Delete a server",
+     *     produces={"application/json"},
+     *     @SWG\Parameter( name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(response="204", description="successfully deleted"),
+     *     @SWG\Response(response="404", description="not found")
+     * )
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function deleteServerAction($id)
+    {
+        $entity = $this->getServerRepository()->findOneBy(['id' => $id]);
+        if (!$entity) {
+            throw $this->createNotFoundException("Server with id '{$id}' not found.");
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($entity);
+        $manager->flush();
+
+        $view = $this->view(null, Response::HTTP_NO_CONTENT);
+        return $this->handleView($view);
+    }
+
+    /**
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
     protected function getServerRepository()
