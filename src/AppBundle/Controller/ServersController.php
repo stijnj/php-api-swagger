@@ -16,7 +16,7 @@ class ServersController extends FOSRestController
     /**
      * @return View
      */
-    public function getServersAction(Request $request)
+    public function getServersAction()
     {
         $view = $this->view($this->getServerRepository()->findAll(), 200);
         return $this->handleView($view);
