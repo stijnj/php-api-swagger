@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 
 use AppBundle\Entity\Server;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ServersController extends FOSRestController
@@ -30,6 +31,25 @@ class ServersController extends FOSRestController
         }
 
         $view = $this->view($entity, 200);
+        return $this->handleView($view);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function postServersAction(Request $request)
+    {
+        $server = new Server();
+        $server->setName($request->request->get('name'));
+        $server->setCPUCount(0);
+        $server->setMemoryCount(0);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($server);
+        $manager->flush();
+
+        $view = $this->view(null, Response::HTTP_CREATED);
         return $this->handleView($view);
     }
 

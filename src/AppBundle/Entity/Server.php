@@ -45,7 +45,7 @@ class Server
     /**
      * @var string
      *
-     * @ORM\Column(name="Ip", type="string", length=255)
+     * @ORM\Column(name="Ip", type="string", length=255, nullable=true)
      */
     private $ip;
 
