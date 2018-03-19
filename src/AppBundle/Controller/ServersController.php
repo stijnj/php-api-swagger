@@ -41,7 +41,7 @@ class ServersController extends FOSRestController
      *     tags={"Servers"},
      *     summary="Show details of a single server",
      *     produces={"application/json"},
-     *     @SWG\Parameter( name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(response="200", description="successful operation"),
      *     @SWG\Response(response="404", description="not found")
      * )
@@ -65,7 +65,6 @@ class ServersController extends FOSRestController
      *     path="/servers",
      *     tags={"Servers"},
      *     summary="Add a new server to the list",
-     *     description="",
      *     consumes={"application/json"},
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -96,6 +95,55 @@ class ServersController extends FOSRestController
         if ($form->isValid()) {
             $this->getServerManager()->post($entity);
             $view = $this->view(null, Response::HTTP_CREATED);
+        } else {
+            $view = $this->view($form, Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @SWG\Put(
+     *     path="/servers/{id}",
+     *     tags={"Servers"},
+     *     summary="Update a server",
+     *     consumes={"application/json"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="Server object that needs to be added to the list",
+     *         required=true,
+     *         @SWG\Schema(ref="#/definitions/Server"),
+     *     ),
+     *     @SWG\Response(
+     *         response=201,
+     *         description="Server updated",
+     *     ),
+     *     @SWG\Response(
+     *         response=405,
+     *         description="Invalid input",
+     *     )
+     * )
+     * @SWG\Response(response="404", description="not found")\
+     *
+     * @param $id
+     * @param Request $request
+     * @return Response
+     */
+    public function putServerAction($id, Request $request)
+    {
+        $entity = $this->getServerManager()->get($id);
+        if (!$entity) {
+            throw $this->createNotFoundException("Server with id '{$id}' not found.");
+        }
+        $form = $this->createForm(ServerType::class, $entity);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            $this->getServerManager()->post($entity);
+            $view = $this->view(null, Response::HTTP_NO_CONTENT);
         } else {
             $view = $this->view($form, Response::HTTP_BAD_REQUEST);
         }
