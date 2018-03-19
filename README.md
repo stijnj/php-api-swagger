@@ -16,6 +16,7 @@ Run `docker-compose start` in the root folder
 Point your browser to http://localhost/swagger/index.html to use the api.
 
 ## Next steps
+- [ ] Align output (snake_case) and input (camelCase) parameters of the server object
 - [ ] Add DTO's to separate view and database layer objects
 - [ ] Add PATCH to update part of a server
 - [ ] Move form logic to a separate service
