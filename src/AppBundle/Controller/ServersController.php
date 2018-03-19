@@ -42,7 +42,7 @@ class ServersController extends FOSRestController
     {
         $server = new Server();
         $server->setName($request->request->get('name'));
-        $server->setCPUCount(0);
+        $server->setCpuCount(0);
         $server->setMemoryCount(0);
 
         $manager = $this->getDoctrine()->getManager();

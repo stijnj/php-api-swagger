@@ -24,28 +24,28 @@ class Server
     /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="CPUCount", type="integer")
+     * @ORM\Column(name="cpu_count", type="integer")
      */
-    private $cPUCount;
+    private $cpuCount;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="MemoryCount", type="integer")
+     * @ORM\Column(name="memory_count", type="integer")
      */
     private $memoryCount;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Ip", type="string", length=255, nullable=true)
+     * @ORM\Column(name="ip", type="string", length=255, nullable=true)
      */
     private $ip;
 
@@ -87,13 +87,13 @@ class Server
     /**
      * Set cPUCount
      *
-     * @param integer $cPUCount
+     * @param integer $cpuCount
      *
      * @return Server
      */
-    public function setCPUCount($cPUCount)
+    public function setCpuCount($cpuCount)
     {
-        $this->cPUCount = $cPUCount;
+        $this->cpuCount = $cpuCount;
 
         return $this;
     }
@@ -103,9 +103,9 @@ class Server
      *
      * @return int
      */
-    public function getCPUCount()
+    public function getCpuCount()
     {
-        return $this->cPUCount;
+        return $this->cpuCount;
     }
 
     /**
